@@ -65,6 +65,9 @@ export default function AdminSettings({
   const [imgbbApiKey, setImgbbApiKey] = useState(settings.imgbbApiKey || "");
   const [latitude, setLatitude] = useState(settings.latitude !== undefined ? String(settings.latitude) : "");
   const [longitude, setLongitude] = useState(settings.longitude !== undefined ? String(settings.longitude) : "");
+  const [logoUrl, setLogoUrl] = useState(settings.logoUrl || "");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
 
   // Sync state if settings prop updates
   React.useEffect(() => {
@@ -76,6 +79,8 @@ export default function AdminSettings({
     setImgbbApiKey(settings.imgbbApiKey || "");
     setLatitude(settings.latitude !== undefined ? String(settings.latitude) : "");
     setLongitude(settings.longitude !== undefined ? String(settings.longitude) : "");
+    setLogoUrl(settings.logoUrl || "");
+    setLogoFile(null);
   }, [settings]);
 
   // New Color shade form states
@@ -118,6 +123,12 @@ export default function AdminSettings({
         finalGoogleMapsUrl = `https://maps.google.com/?q=${parsedLat},${parsedLng}`;
       }
 
+      let finalLogoUrl = logoUrl.trim() || settings.logoUrl || "";
+      if (logoFile) {
+        setUploadingLogo(true);
+        finalLogoUrl = await uploadImageToImgBB(logoFile);
+      }
+
       await saveStoreSettings({
         ...settings,
         name: storeName,
@@ -132,7 +143,8 @@ export default function AdminSettings({
         imgbbApiKey,
         latitude: parsedLat,
         longitude: parsedLng,
-        googleMaps: finalGoogleMapsUrl
+        googleMaps: finalGoogleMapsUrl,
+        logoUrl: finalLogoUrl
       });
 
       await addActivityLog({
@@ -142,11 +154,15 @@ export default function AdminSettings({
       });
 
       setSuccessMsg("General settings updated successfully.");
+      setLogoFile(null);
+      const fileInput = document.getElementById("store-logo-file") as HTMLInputElement;
+      if (fileInput) fileInput.value = "";
       await onRefresh();
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to update settings.");
     } finally {
       setSaving(false);
+      setUploadingLogo(false);
     }
   };
 
@@ -427,6 +443,39 @@ export default function AdminSettings({
                 onChange={(e) => setStoreName(e.target.value)}
                 className="w-full px-3 py-2 border rounded-xl bg-gray-50/50 dark:bg-gray-800 dark:border-gray-700 text-sm"
               />
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Website Logo URL</label>
+                <input
+                  type="url"
+                  value={logoUrl}
+                  onChange={(e) => setLogoUrl(e.target.value)}
+                  placeholder="Paste a public image URL or upload below"
+                  className="w-full px-3 py-2 border rounded-xl bg-gray-50/50 dark:bg-gray-800 text-sm"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Enter a direct logo URL or upload a file. Image uploads are sent via ImgBB.</p>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 uppercase mb-1">Upload Logo File</label>
+                <input
+                  id="store-logo-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
+                  className="w-full text-sm text-gray-600 file:border-0 file:bg-teal-100 file:px-3 file:py-2 file:rounded-full file:text-teal-900"
+                />
+              </div>
+              {logoUrl && (
+                <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                  <img src={logoUrl} alt="Logo preview" className="w-16 h-16 object-contain rounded-xl" />
+                  <div>
+                    <p className="text-sm font-semibold">Current logo preview</p>
+                    <p className="text-xs text-slate-500">This will be used if no new file is uploaded.</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
