@@ -1,0 +1,235 @@
+{
+  "entities": {
+    "StoreSettings": {
+      "title": "Store Settings",
+      "description": "Store configuration and public info",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "faviconUrl": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "email": { "type": "string" },
+        "openingHours": { "type": "string" },
+        "about": { "type": "string" },
+        "googleMaps": { "type": "string" },
+        "facebook": { "type": "string" },
+        "instagram": { "type": "string" },
+        "tiktok": { "type": "string" },
+        "footerText": { "type": "string" },
+        "primaryColor": { "type": "string" }
+      },
+      "required": ["name", "whatsapp", "phone"]
+    },
+    "SecuritySettings": {
+      "title": "Security Settings",
+      "description": "Administrator credentials and theme configurations",
+      "type": "object",
+      "properties": {
+        "accessKeyHash": { "type": "string" },
+        "username": { "type": "string" },
+        "passwordHash": { "type": "string" },
+        "theme": { "type": "string" },
+        "sessionTimeout": { "type": "integer" }
+      },
+      "required": ["accessKeyHash", "username", "passwordHash"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Paint categories",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name"]
+    },
+    "Brand": {
+      "title": "Brand",
+      "description": "Paint brands",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Paint product and items details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "brandId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "description": { "type": "string" },
+        "buyingPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "minimumStock": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "coverage": { "type": "string" },
+        "dryingTime": { "type": "string" },
+        "recommendedSurface": { "type": "string" },
+        "status": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "sizes": { "type": "array" },
+        "images": { "type": "array" }
+      },
+      "required": ["name", "brandId", "categoryId", "sellingPrice"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Paint suppliers and distributors",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "contactPerson": { "type": "string" },
+        "phone": { "type": "string" },
+        "businessName": { "type": "string" },
+        "location": { "type": "string" },
+        "address": { "type": "string" },
+        "notes": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Inventory purchase transactions",
+      "type": "object",
+      "properties": {
+        "purchaseNumber": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "purchaseDate": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "productId": { "type": "string" },
+        "size": { "type": "string" },
+        "quantity": { "type": "number" },
+        "buyingPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "notes": { "type": "string" },
+        "totalValue": { "type": "number" }
+      },
+      "required": ["purchaseNumber", "supplierId", "productId", "quantity", "buyingPrice"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Sales record",
+      "type": "object",
+      "properties": {
+        "saleNumber": { "type": "string" },
+        "saleDate": { "type": "string" },
+        "productId": { "type": "string" },
+        "size": { "type": "string" },
+        "quantity": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["saleNumber", "saleDate", "productId", "quantity", "sellingPrice", "totalAmount", "paymentMethod"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Daily business expenses",
+      "type": "object",
+      "properties": {
+        "expenseDate": { "type": "string" },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" }
+      },
+      "required": ["expenseDate", "category", "amount"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Customer feedback",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "date": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name", "rating", "comment"]
+    },
+    "HeroSlide": {
+      "title": "HeroSlide",
+      "description": "Slides for the public homepage hero section",
+      "type": "object",
+      "properties": {
+        "imageUrl": { "type": "string" },
+        "heading": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "buttonText": { "type": "string" },
+        "buttonLink": { "type": "string" },
+        "displayOrder": { "type": "integer" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["imageUrl", "heading", "displayOrder"]
+    }
+  },
+  "firestore": {
+    "/settings/{settingsId}": {
+      "schema": "StoreSettings",
+      "description": "Global store and security configurations"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Categories for paint products"
+    },
+    "/brands/{brandId}": {
+      "schema": "Brand",
+      "description": "Brands of paint products"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Products in inventory"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Suppliers database"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "Purchases of inventory"
+    },
+    "/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Sales records"
+    },
+    "/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Business expenses records"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Customer testimonials"
+    },
+    "/hero_slides/{slideId}": {
+      "schema": "HeroSlide",
+      "description": "Hero section dynamic slides"
+    },
+    "/stock_movements/{movementId}": {
+      "schema": "object",
+      "description": "Stock adjustment and movement history log"
+    },
+    "/activity_logs/{logId}": {
+      "schema": "object",
+      "description": "Security and admin activity logs"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "object",
+      "description": "Low stock and system notifications"
+    }
+  }
+}
